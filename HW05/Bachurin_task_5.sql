@@ -1,35 +1,35 @@
 /*
-Домашнее задание по курсу MS SQL Server Developer в OTUS.
-Занятие "03 - Подзапросы, CTE, временные таблицы".
-Задания выполняются с использованием базы данных WideWorldImporters.
-Бэкап БД можно скачать отсюда:
+Р”РѕРјР°С€РЅРµРµ Р·Р°РґР°РЅРёРµ РїРѕ РєСѓСЂСЃСѓ MS SQL Server Developer РІ OTUS.
+Р—Р°РЅСЏС‚РёРµ "03 - РџРѕРґР·Р°РїСЂРѕСЃС‹, CTE, РІСЂРµРјРµРЅРЅС‹Рµ С‚Р°Р±Р»РёС†С‹".
+Р—Р°РґР°РЅРёСЏ РІС‹РїРѕР»РЅСЏСЋС‚СЃСЏ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј Р±Р°Р·С‹ РґР°РЅРЅС‹С… WideWorldImporters.
+Р‘СЌРєР°Рї Р‘Р” РјРѕР¶РЅРѕ СЃРєР°С‡Р°С‚СЊ РѕС‚СЃСЋРґР°:
 https://github.com/Microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0
-Нужен WideWorldImporters-Full.bak
-Описание WideWorldImporters от Microsoft:
+РќСѓР¶РµРЅ WideWorldImporters-Full.bak
+РћРїРёСЃР°РЅРёРµ WideWorldImporters РѕС‚ Microsoft:
 * https://docs.microsoft.com/ru-ru/sql/samples/wide-world-importers-what-is
 * https://docs.microsoft.com/ru-ru/sql/samples/wide-world-importers-oltp-database-catalog
 */
 
 -- ---------------------------------------------------------------------------
--- Задание - написать выборки для получения указанных ниже данных.
--- Для всех заданий, где возможно, сделайте два варианта запросов:
---  1) через вложенный запрос
---  2) через WITH (для производных таблиц)
+-- Р—Р°РґР°РЅРёРµ - РЅР°РїРёСЃР°С‚СЊ РІС‹Р±РѕСЂРєРё РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ СѓРєР°Р·Р°РЅРЅС‹С… РЅРёР¶Рµ РґР°РЅРЅС‹С….
+-- Р”Р»СЏ РІСЃРµС… Р·Р°РґР°РЅРёР№, РіРґРµ РІРѕР·РјРѕР¶РЅРѕ, СЃРґРµР»Р°Р№С‚Рµ РґРІР° РІР°СЂРёР°РЅС‚Р° Р·Р°РїСЂРѕСЃРѕРІ:
+--  1) С‡РµСЂРµР· РІР»РѕР¶РµРЅРЅС‹Р№ Р·Р°РїСЂРѕСЃ
+--  2) С‡РµСЂРµР· WITH (РґР»СЏ РїСЂРѕРёР·РІРѕРґРЅС‹С… С‚Р°Р±Р»РёС†)
 -- ---------------------------------------------------------------------------
 
 USE WideWorldImporters
 
 /*
-1. Выберите сотрудников (Application.People), которые являются продажниками (IsSalesPerson), 
-и не сделали ни одной продажи 04 июля 2015 года. 
-Вывести ИД сотрудника и его полное имя. 
-Продажи смотреть в таблице Sales.Invoices.
+1. Р’С‹Р±РµСЂРёС‚Рµ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ (Application.People), РєРѕС‚РѕСЂС‹Рµ СЏРІР»СЏСЋС‚СЃСЏ РїСЂРѕРґР°Р¶РЅРёРєР°РјРё (IsSalesPerson), 
+Рё РЅРµ СЃРґРµР»Р°Р»Рё РЅРё РѕРґРЅРѕР№ РїСЂРѕРґР°Р¶Рё 04 РёСЋР»СЏ 2015 РіРѕРґР°. 
+Р’С‹РІРµСЃС‚Рё РР” СЃРѕС‚СЂСѓРґРЅРёРєР° Рё РµРіРѕ РїРѕР»РЅРѕРµ РёРјСЏ. 
+РџСЂРѕРґР°Р¶Рё СЃРјРѕС‚СЂРµС‚СЊ РІ С‚Р°Р±Р»РёС†Рµ Sales.Invoices.
 */
 
---1) Вложеныый запрос; 
+--1) Р’Р»РѕР¶РµРЅС‹С‹Р№ Р·Р°РїСЂРѕСЃ; 
 select 
-	PersonID as [ИД],
-	FullName as [Полное имя]
+	PersonID as [РР”],
+	FullName as [РџРѕР»РЅРѕРµ РёРјСЏ]
 from Application.People People
 where People.IsSalesPerson = 1 and People.PersonID not in (select distinct Invoices.SalespersonPersonID
 														   from Sales.Invoices Invoices
@@ -39,7 +39,7 @@ where People.IsSalesPerson = 1 and People.PersonID not in (select distinct Invoi
 														   and DATEPART(MONTH, Transactions.TransactionDate) = 7
 														   and DATEPART(DAY, Transactions.TransactionDate) = 4)
 
---2) Через WITH.
+--2) Р§РµСЂРµР· WITH.
 WITH cte
 AS (
 select distinct Invoices.SalespersonPersonID
@@ -51,59 +51,59 @@ and DATEPART(MONTH, Transactions.TransactionDate) = 7
 and DATEPART(DAY, Transactions.TransactionDate) = 4
 	)
 select	
-	PersonID as [ИД],
-	FullName as [Полное имя]
+	PersonID as [РР”],
+	FullName as [РџРѕР»РЅРѕРµ РёРјСЏ]
 from cte as c
 right join Application.People People on People.PersonID = c.SalespersonPersonID
 where IsSalesPerson = 1 AND SalespersonPersonID IS NULL
 
 /*
-2. Выберите товары с минимальной ценой (подзапросом). Сделайте два варианта подзапроса. 
-Вывести: ИД товара, наименование товара, цена.
+2. Р’С‹Р±РµСЂРёС‚Рµ С‚РѕРІР°СЂС‹ СЃ РјРёРЅРёРјР°Р»СЊРЅРѕР№ С†РµРЅРѕР№ (РїРѕРґР·Р°РїСЂРѕСЃРѕРј). РЎРґРµР»Р°Р№С‚Рµ РґРІР° РІР°СЂРёР°РЅС‚Р° РїРѕРґР·Р°РїСЂРѕСЃР°. 
+Р’С‹РІРµСЃС‚Рё: РР” С‚РѕРІР°СЂР°, РЅР°РёРјРµРЅРѕРІР°РЅРёРµ С‚РѕРІР°СЂР°, С†РµРЅР°.
 */
 
---1.1) Вложеныый запрос; 
+--1.1) Р’Р»РѕР¶РµРЅС‹С‹Р№ Р·Р°РїСЂРѕСЃ; 
 
 select
-	StockItemID as [ИД товара],
-	StockItemName as [наименование товара],
-	UnitPrice as [цена]
+	StockItemID as [РР” С‚РѕРІР°СЂР°],
+	StockItemName as [РЅР°РёРјРµРЅРѕРІР°РЅРёРµ С‚РѕРІР°СЂР°],
+	UnitPrice as [С†РµРЅР°]
 from Warehouse.StockItems StockItems
 where UnitPrice = (select min(UnitPrice)
 				   from Warehouse.StockItems)
 
---1.2) Вложеныый запрос; 
+--1.2) Р’Р»РѕР¶РµРЅС‹С‹Р№ Р·Р°РїСЂРѕСЃ; 
 
 select 	
-	StockItemID as [ИД товара],
-	StockItemName as [наименование товара],
-	UnitPrice as [цена]
+	StockItemID as [РР” С‚РѕРІР°СЂР°],
+	StockItemName as [РЅР°РёРјРµРЅРѕРІР°РЅРёРµ С‚РѕРІР°СЂР°],
+	UnitPrice as [С†РµРЅР°]
 from Warehouse.StockItems StockItems
 join (select min(UnitPrice) as MinUnitPrice
 	  from Warehouse.StockItems) 
 	  minPrice ON StockItems.UnitPrice = minPrice.MinUnitPrice
 
---2) Через WITH.
+--2) Р§РµСЂРµР· WITH.
 
 WITH cte
 as (select min(UnitPrice) as MinUnitPrice
 	from Warehouse.StockItems)
 select 
-	StockItemID as [ИД товара],
-	StockItemName as [наименование товара],
-	UnitPrice as [цена]
+	StockItemID as [РР” С‚РѕРІР°СЂР°],
+	StockItemName as [РЅР°РёРјРµРЅРѕРІР°РЅРёРµ С‚РѕРІР°СЂР°],
+	UnitPrice as [С†РµРЅР°]
 from cte as c
 join Warehouse.StockItems as StockItems on StockItems.UnitPrice = C.MinUnitPrice
 /*
-3. Выберите информацию по клиентам, которые перевели компании пять максимальных платежей 
-из Sales.CustomerTransactions. 
-Представьте несколько способов (в том числе с CTE). 
+3. Р’С‹Р±РµСЂРёС‚Рµ РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕ РєР»РёРµРЅС‚Р°Рј, РєРѕС‚РѕСЂС‹Рµ РїРµСЂРµРІРµР»Рё РєРѕРјРїР°РЅРёРё РїСЏС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹С… РїР»Р°С‚РµР¶РµР№ 
+РёР· Sales.CustomerTransactions. 
+РџСЂРµРґСЃС‚Р°РІСЊС‚Рµ РЅРµСЃРєРѕР»СЊРєРѕ СЃРїРѕСЃРѕР±РѕРІ (РІ С‚РѕРј С‡РёСЃР»Рµ СЃ CTE). 
 */
 
---1.1) Вложеныый запрос; 
+--1.1) Р’Р»РѕР¶РµРЅС‹С‹Р№ Р·Р°РїСЂРѕСЃ; 
 
 select distinct 
-	Customers.CustomerName [ФИО]
+	Customers.CustomerName [Р¤РРћ]
 from (
 	select top 5 Transactions.CustomerID
 	from Sales.CustomerTransactions Transactions
@@ -111,38 +111,38 @@ from (
 	) a
 join Sales.Customers Customers ON a.CustomerID = Customers.CustomerID
 
---1.2) Вложеныый запрос; 
+--1.2) Р’Р»РѕР¶РµРЅС‹С‹Р№ Р·Р°РїСЂРѕСЃ; 
 
 select distinct 
-	Customers.CustomerName [ФИО]
+	Customers.CustomerName [Р¤РРћ]
 from Sales.Customers
 where CustomerID IN (select top  5 CustomerID
 					 from Sales.CustomerTransactions
 					 order by TransactionAmount DESC)
 
---2) Через WITH.
+--2) Р§РµСЂРµР· WITH.
 
 WITH cte
 as (select top 5 CustomerID
 	from Sales.CustomerTransactions
 	order by TransactionAmount desc)
 select distinct 
-	Customers.CustomerName [ФИО]
+	Customers.CustomerName [Р¤РРћ]
 from Sales.Customers Customers
 JOIN cte as c on Customers.CustomerID = c.CustomerID
 
 /*
-4. Выберите города (ид и название), в которые были доставлены товары, 
-входящие в тройку самых дорогих товаров, а также имя сотрудника, 
-который осуществлял упаковку заказов (PackedByPersonID).
+4. Р’С‹Р±РµСЂРёС‚Рµ РіРѕСЂРѕРґР° (РёРґ Рё РЅР°Р·РІР°РЅРёРµ), РІ РєРѕС‚РѕСЂС‹Рµ Р±С‹Р»Рё РґРѕСЃС‚Р°РІР»РµРЅС‹ С‚РѕРІР°СЂС‹, 
+РІС…РѕРґСЏС‰РёРµ РІ С‚СЂРѕР№РєСѓ СЃР°РјС‹С… РґРѕСЂРѕРіРёС… С‚РѕРІР°СЂРѕРІ, Р° С‚Р°РєР¶Рµ РёРјСЏ СЃРѕС‚СЂСѓРґРЅРёРєР°, 
+РєРѕС‚РѕСЂС‹Р№ РѕСЃСѓС‰РµСЃС‚РІР»СЏР» СѓРїР°РєРѕРІРєСѓ Р·Р°РєР°Р·РѕРІ (PackedByPersonID).
 */
 
---1) Вложеныый запрос; 
+--1) Р’Р»РѕР¶РµРЅС‹С‹Р№ Р·Р°РїСЂРѕСЃ; 
 
 select 
-	Cities.CityID as [ид города],
-	Cities.CityName as [Название города],
-	People.FullName as [Имя сотрудника]
+	Cities.CityID as [РёРґ РіРѕСЂРѕРґР°],
+	Cities.CityName as [РќР°Р·РІР°РЅРёРµ РіРѕСЂРѕРґР°],
+	People.FullName as [РРјСЏ СЃРѕС‚СЂСѓРґРЅРёРєР°]
 from
 (select top 3 StockItemID
 from Warehouse.StockItems 
@@ -153,14 +153,14 @@ join Sales.Customers Customers on Orders.CustomerID = Customers.CustomerID
 join Application.People People on Orders.PickedByPersonID = People.PersonID
 join Application.Cities Cities on Customers.DeliveryCityID = Cities.CityID
 
---2) Через WITH.
+--2) Р§РµСЂРµР· WITH.
 WITH cte as (select top 3 StockItemID
 			 from Warehouse.StockItems
 			 order by UnitPrice DESC)
 select distinct 
-	Cities.CityID as [ид города],
-	Cities.CityName as [Название города],
-	People.FullName as [Имя сотрудника]
+	Cities.CityID as [РёРґ РіРѕСЂРѕРґР°],
+	Cities.CityName as [РќР°Р·РІР°РЅРёРµ РіРѕСЂРѕРґР°],
+	People.FullName as [РРјСЏ СЃРѕС‚СЂСѓРґРЅРёРєР°]
 from cte AS stock
 join Sales.OrderLines OrderLines on stock.StockItemID = OrderLines.StockItemID
 join Sales.Orders Orders on OrderLines.OrderID = Orders.OrderID
@@ -170,15 +170,15 @@ join Application.Cities Cities on Customers.DeliveryCityID = Cities.CityID
 
 
 -- ---------------------------------------------------------------------------
--- Опциональное задание
+-- РћРїС†РёРѕРЅР°Р»СЊРЅРѕРµ Р·Р°РґР°РЅРёРµ
 -- ---------------------------------------------------------------------------
--- Можно двигаться как в сторону улучшения читабельности запроса, 
--- так и в сторону упрощения плана\ускорения. 
--- Сравнить производительность запросов можно через SET STATISTICS IO, TIME ON. 
--- Если знакомы с планами запросов, то используйте их (тогда к решению также приложите планы). 
--- Напишите ваши рассуждения по поводу оптимизации. 
+-- РњРѕР¶РЅРѕ РґРІРёРіР°С‚СЊСЃСЏ РєР°Рє РІ СЃС‚РѕСЂРѕРЅСѓ СѓР»СѓС‡С€РµРЅРёСЏ С‡РёС‚Р°Р±РµР»СЊРЅРѕСЃС‚Рё Р·Р°РїСЂРѕСЃР°, 
+-- С‚Р°Рє Рё РІ СЃС‚РѕСЂРѕРЅСѓ СѓРїСЂРѕС‰РµРЅРёСЏ РїР»Р°РЅР°\СѓСЃРєРѕСЂРµРЅРёСЏ. 
+-- РЎСЂР°РІРЅРёС‚СЊ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ Р·Р°РїСЂРѕСЃРѕРІ РјРѕР¶РЅРѕ С‡РµСЂРµР· SET STATISTICS IO, TIME ON. 
+-- Р•СЃР»Рё Р·РЅР°РєРѕРјС‹ СЃ РїР»Р°РЅР°РјРё Р·Р°РїСЂРѕСЃРѕРІ, С‚Рѕ РёСЃРїРѕР»СЊР·СѓР№С‚Рµ РёС… (С‚РѕРіРґР° Рє СЂРµС€РµРЅРёСЋ С‚Р°РєР¶Рµ РїСЂРёР»РѕР¶РёС‚Рµ РїР»Р°РЅС‹). 
+-- РќР°РїРёС€РёС‚Рµ РІР°С€Рё СЂР°СЃСЃСѓР¶РґРµРЅРёСЏ РїРѕ РїРѕРІРѕРґСѓ РѕРїС‚РёРјРёР·Р°С†РёРё. 
 
--- 5. Объясните, что делает и оптимизируйте запрос
+-- 5. РћР±СЉСЏСЃРЅРёС‚Рµ, С‡С‚Рѕ РґРµР»Р°РµС‚ Рё РѕРїС‚РёРјРёР·РёСЂСѓР№С‚Рµ Р·Р°РїСЂРѕСЃ
 SET STATISTICS TIME ON
 SET STATISTICS IO ON
 
@@ -210,14 +210,14 @@ SET STATISTICS TIME OFF
 SET STATISTICS IO OFF
 
 
- --Время работы SQL Server:
- --  Время ЦП = 221 мс, затраченное время = 45 мс.
+ --Р’СЂРµРјСЏ СЂР°Р±РѕС‚С‹ SQL Server:
+ --  Р’СЂРµРјСЏ Р¦Рџ = 221 РјСЃ, Р·Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ = 45 РјСЃ.
 
 
 -- --
---1. Повышенна читаемость запроса;
---2. Подзапрос заменен на  WITH;
---3. Из select перенес в from подзапрос
+--1. РџРѕРІС‹С€РµРЅРЅР° С‡РёС‚Р°РµРјРѕСЃС‚СЊ Р·Р°РїСЂРѕСЃР°;
+--2. РџРѕРґР·Р°РїСЂРѕСЃ Р·Р°РјРµРЅРµРЅ РЅР°  WITH;
+--3. РР· select РїРµСЂРµРЅРµСЃ РІ from РїРѕРґР·Р°РїСЂРѕСЃ
 
 SET STATISTICS TIME ON;
 SET STATISTICS IO ON;
@@ -255,5 +255,5 @@ SET STATISTICS TIME OFF
 SET STATISTICS IO OFF
 
 
- --Время работы SQL Server: 
- --  Время ЦП = 47 мс, затраченное время = 41 мс.
+ --Р’СЂРµРјСЏ СЂР°Р±РѕС‚С‹ SQL Server: 
+ --  Р’СЂРµРјСЏ Р¦Рџ = 47 РјСЃ, Р·Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ = 41 РјСЃ.
