@@ -1,21 +1,21 @@
 /*
-Задания выполняются с использованием базы данных WideWorldImporters.
-Бэкап БД можно скачать отсюда:
+Р—Р°РґР°РЅРёСЏ РІС‹РїРѕР»РЅСЏСЋС‚СЃСЏ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј Р±Р°Р·С‹ РґР°РЅРЅС‹С… WideWorldImporters.
+Р‘СЌРєР°Рї Р‘Р” РјРѕР¶РЅРѕ СЃРєР°С‡Р°С‚СЊ РѕС‚СЃСЋРґР°:
 https://github.com/Microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0
-Нужен WideWorldImporters-Full.bak
-Описание WideWorldImporters от Microsoft:
+РќСѓР¶РµРЅ WideWorldImporters-Full.bak
+РћРїРёСЃР°РЅРёРµ WideWorldImporters РѕС‚ Microsoft:
 * https://docs.microsoft.com/ru-ru/sql/samples/wide-world-importers-what-is
 * https://docs.microsoft.com/ru-ru/sql/samples/wide-world-importers-oltp-database-catalog
 */
 
 -- ---------------------------------------------------------------------------
--- Задание - написать выборки для получения указанных ниже данных.
+-- Р—Р°РґР°РЅРёРµ - РЅР°РїРёСЃР°С‚СЊ РІС‹Р±РѕСЂРєРё РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ СѓРєР°Р·Р°РЅРЅС‹С… РЅРёР¶Рµ РґР°РЅРЅС‹С….
 -- ---------------------------------------------------------------------------
 
 USE WideWorldImporters
 
 /*
-1. Довставлять в базу пять записей используя insert в таблицу Customers или Suppliers 
+1. Р”РѕРІСЃС‚Р°РІР»СЏС‚СЊ РІ Р±Р°Р·Сѓ РїСЏС‚СЊ Р·Р°РїРёСЃРµР№ РёСЃРїРѕР»СЊР·СѓСЏ insert РІ С‚Р°Р±Р»РёС†Сѓ Customers РёР»Рё Suppliers 
 */
 
 
@@ -45,7 +45,7 @@ from Sales.Customers a
 order by a.CustomerID DESC
 
 /*
-2. Удалите одну запись из Customers, которая была вами добавлена
+2. РЈРґР°Р»РёС‚Рµ РѕРґРЅСѓ Р·Р°РїРёСЃСЊ РёР· Customers, РєРѕС‚РѕСЂР°СЏ Р±С‹Р»Р° РІР°РјРё РґРѕР±Р°РІР»РµРЅР°
 */
 
 create table #temp_Customers (id int)
@@ -67,7 +67,7 @@ order by a.CustomerID DESC
 drop table #temp_Customers
 
 /*
-3. Изменить одну запись, из добавленных через UPDATE
+3. РР·РјРµРЅРёС‚СЊ РѕРґРЅСѓ Р·Р°РїРёСЃСЊ, РёР· РґРѕР±Р°РІР»РµРЅРЅС‹С… С‡РµСЂРµР· UPDATE
 */
 
 create table #temp_Customers (id int)
@@ -92,7 +92,7 @@ order by CustomerID desc
 drop table #temp_Customers
 
 /*
-4. Написать MERGE, который вставит вставит запись в клиенты, если ее там нет, и изменит если она уже есть
+4. РќР°РїРёСЃР°С‚СЊ MERGE, РєРѕС‚РѕСЂС‹Р№ РІСЃС‚Р°РІРёС‚ РІСЃС‚Р°РІРёС‚ Р·Р°РїРёСЃСЊ РІ РєР»РёРµРЅС‚С‹, РµСЃР»Рё РµРµ С‚Р°Рј РЅРµС‚, Рё РёР·РјРµРЅРёС‚ РµСЃР»Рё РѕРЅР° СѓР¶Рµ РµСЃС‚СЊ
 */
 
 create table #temp_Customers (Action varchar(100), id int)
@@ -131,7 +131,7 @@ drop table #temp_Customers
 
 
 /*
-5. Напишите запрос, который выгрузит данные через bcp out и загрузить через bulk insert
+5. РќР°РїРёС€РёС‚Рµ Р·Р°РїСЂРѕСЃ, РєРѕС‚РѕСЂС‹Р№ РІС‹РіСЂСѓР·РёС‚ РґР°РЅРЅС‹Рµ С‡РµСЂРµР· bcp out Рё Р·Р°РіСЂСѓР·РёС‚СЊ С‡РµСЂРµР· bulk insert
 */
 
-напишите здесь свое решение
+РЅР°РїРёС€РёС‚Рµ Р·РґРµСЃСЊ СЃРІРѕРµ СЂРµС€РµРЅРёРµ
