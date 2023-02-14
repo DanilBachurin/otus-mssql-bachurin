@@ -22,7 +22,7 @@ select
 	item.StockItemName as [Наименование товара]
 	from Warehouse.StockItems item
 where item.StockItemName like '%urgent%' 
-	or item.StockItemName like '%Animal%'
+	or item.StockItemName like 'Animal%'
 
 /*
 2. Поставщиков (Suppliers), у которых не было сделано ни одного заказа (PurchaseOrders).
@@ -61,28 +61,10 @@ SELECT DISTINCT Orders.OrderID
 	,datename(month, CustomerTransactions.TransactionDate) AS [название месяца]
 	,datepart(quarter, CustomerTransactions.TransactionDate) AS [номер квартала]
 	,CASE 
-		WHEN MONTH(CustomerTransactions.TransactionDate) IN (
-				1
-				,2
-				,3
-				,4
-				)
-			THEN 1
-		WHEN MONTH(CustomerTransactions.TransactionDate) IN (
-				5
-				,6
-				,7
-				,8
-				)
-			THEN 2
-		WHEN MONTH(CustomerTransactions.TransactionDate) IN (
-				9
-				,10
-				,11
-				,12
-				)
-			THEN 3
-		END AS [треть года]
+		WHEN MONTH(CustomerTransactions.TransactionDate) IN (1, 2, 3, 4) THEN 1
+		WHEN MONTH(CustomerTransactions.TransactionDate) IN (5, 6, 7, 8) THEN 2
+		WHEN MONTH(CustomerTransactions.TransactionDate) IN (9, 10, 11, 12)	THEN 3
+	 END AS [треть года]
 	,Customers.CustomerName AS [имя заказчика]
 FROM Sales.Orders Orders
 INNER JOIN Sales.Invoices Invoices ON Orders.OrderID = Invoices.OrderID
@@ -115,28 +97,10 @@ SELECT DISTINCT Orders.OrderID
 	,datename(month, CustomerTransactions.TransactionDate) AS [название месяца]
 	,datepart(quarter, CustomerTransactions.TransactionDate) AS [номер квартала]
 	,CASE 
-		WHEN MONTH(CustomerTransactions.TransactionDate) IN (
-				1
-				,2
-				,3
-				,4
-				)
-			THEN 1
-		WHEN MONTH(CustomerTransactions.TransactionDate) IN (
-				5
-				,6
-				,7
-				,8
-				)
-			THEN 2
-		WHEN MONTH(CustomerTransactions.TransactionDate) IN (
-				9
-				,10
-				,11
-				,12
-				)
-			THEN 3
-		END AS [треть года]
+		WHEN MONTH(CustomerTransactions.TransactionDate) IN (1,2,3,4) THEN 1
+		WHEN MONTH(CustomerTransactions.TransactionDate) IN (5,6,7,8) THEN 2
+		WHEN MONTH(CustomerTransactions.TransactionDate) IN (9, 10, 11, 12)THEN 3
+	 END AS [треть года]
 	,Customers.CustomerName AS [имя заказчика]
 FROM Sales.Orders Orders
 INNER JOIN Sales.Invoices Invoices ON Orders.OrderID = Invoices.OrderID
@@ -191,8 +155,8 @@ INNER JOIN Application.DeliveryMethods DeliveryMethods on DeliveryMethods.Delive
 LEFT OUTER JOIN Application.People People on People.PersonID = PurchaseOrders.LastEditedBy
 where DATEPART(YEAR, PurchaseOrders.ExpectedDeliveryDate) = 2013 
 and DATEPART(MONTH, PurchaseOrders.ExpectedDeliveryDate) = 01
-and (DeliveryMethods.DeliveryMethodName like 'Air Freight' 
-	 or DeliveryMethods.DeliveryMethodName like 'Refrigerated Air Freight')
+and (DeliveryMethods.DeliveryMethodName = 'Air Freight' 
+	 or DeliveryMethods.DeliveryMethodName = 'Refrigerated Air Freight')
 and PurchaseOrders.IsOrderFinalized = 1
 
 
@@ -229,5 +193,5 @@ INNER JOIN Sales.Orders Orders ON sol.OrderID = Orders.OrderID
 INNER JOIN Sales.Customers Customers ON Customers.CustomerID = Orders.CustomerID
 WHERE StockItems.StockItemID in (SELECT StockItemID
 								 FROM Warehouse.StockItems StockItems
-								 WHERE StockItems.StockItemName like 'Chocolate frogs 250g'
+								 WHERE StockItems.StockItemName = 'Chocolate frogs 250g'
 								)
