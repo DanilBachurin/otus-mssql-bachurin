@@ -1,48 +1,48 @@
 /*
-Домашнее задание по курсу MS SQL Server Developer в OTUS.
-Занятие "02 - Оператор SELECT и простые фильтры, GROUP BY, HAVING".
-Задания выполняются с использованием базы данных WideWorldImporters.
+Р”РѕРјР°С€РЅРµРµ Р·Р°РґР°РЅРёРµ РїРѕ РєСѓСЂСЃСѓ MS SQL Server Developer РІ OTUS.
+Р—Р°РЅСЏС‚РёРµ "02 - РћРїРµСЂР°С‚РѕСЂ SELECT Рё РїСЂРѕСЃС‚С‹Рµ С„РёР»СЊС‚СЂС‹, GROUP BY, HAVING".
+Р—Р°РґР°РЅРёСЏ РІС‹РїРѕР»РЅСЏСЋС‚СЃСЏ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј Р±Р°Р·С‹ РґР°РЅРЅС‹С… WideWorldImporters.
 */
 
 -- ---------------------------------------------------------------------------
--- Задание - написать выборки для получения указанных ниже данных.
+-- Р—Р°РґР°РЅРёРµ - РЅР°РїРёСЃР°С‚СЊ РІС‹Р±РѕСЂРєРё РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ СѓРєР°Р·Р°РЅРЅС‹С… РЅРёР¶Рµ РґР°РЅРЅС‹С….
 -- ---------------------------------------------------------------------------
 
 /*
-1. Посчитать среднюю цену товара, общую сумму продажи по месяцам.
-Вывести:
-* Год продажи (например, 2015)
-* Месяц продажи (например, 4)
-* Средняя цена за месяц по всем товарам
-* Общая сумма продаж за месяц
-Продажи смотреть в таблице Sales.Invoices и связанных таблицах.
+1. РџРѕСЃС‡РёС‚Р°С‚СЊ СЃСЂРµРґРЅСЋСЋ С†РµРЅСѓ С‚РѕРІР°СЂР°, РѕР±С‰СѓСЋ СЃСѓРјРјСѓ РїСЂРѕРґР°Р¶Рё РїРѕ РјРµСЃСЏС†Р°Рј.
+Р’С‹РІРµСЃС‚Рё:
+* Р“РѕРґ РїСЂРѕРґР°Р¶Рё (РЅР°РїСЂРёРјРµСЂ, 2015)
+* РњРµСЃСЏС† РїСЂРѕРґР°Р¶Рё (РЅР°РїСЂРёРјРµСЂ, 4)
+* РЎСЂРµРґРЅСЏСЏ С†РµРЅР° Р·Р° РјРµСЃСЏС† РїРѕ РІСЃРµРј С‚РѕРІР°СЂР°Рј
+* РћР±С‰Р°СЏ СЃСѓРјРјР° РїСЂРѕРґР°Р¶ Р·Р° РјРµСЃСЏС†
+РџСЂРѕРґР°Р¶Рё СЃРјРѕС‚СЂРµС‚СЊ РІ С‚Р°Р±Р»РёС†Рµ Sales.Invoices Рё СЃРІСЏР·Р°РЅРЅС‹С… С‚Р°Р±Р»РёС†Р°С….
 */
 
 SELECT 
-	DATEPART(YEAR, Invoices.InvoiceDate) AS [Год продажи],
-	DATEPART(MONTH, Invoices.InvoiceDate) AS [Месяц продажи],
-	AVG(OrderLines.UnitPrice) AS [Средняя цена за месяц],
-	SUM(Transactions.TransactionAmount) AS [Сумма за месяц]
+	DATEPART(YEAR, Invoices.InvoiceDate) AS [Р“РѕРґ РїСЂРѕРґР°Р¶Рё],
+	DATEPART(MONTH, Invoices.InvoiceDate) AS [РњРµСЃСЏС† РїСЂРѕРґР°Р¶Рё],
+	AVG(OrderLines.UnitPrice) AS [РЎСЂРµРґРЅСЏСЏ С†РµРЅР° Р·Р° РјРµСЃСЏС†],
+	SUM(Transactions.TransactionAmount) AS [РЎСѓРјРјР° Р·Р° РјРµСЃСЏС†]
 FROM Sales.Invoices Invoices
 INNER JOIN Sales.CustomerTransactions Transactions ON Invoices.InvoiceID = Transactions.InvoiceID
 INNER JOIN Sales.OrderLines OrderLines ON Invoices.OrderID = OrderLines.OrderID
 GROUP BY DATEPART(MONTH, Invoices.InvoiceDate), DATEPART(YEAR, Invoices.InvoiceDate)
-ORDER BY [Год продажи], [Месяц продажи]
+ORDER BY [Р“РѕРґ РїСЂРѕРґР°Р¶Рё], [РњРµСЃСЏС† РїСЂРѕРґР°Р¶Рё]
 
 
 /*
-2. Отобразить все месяцы, где общая сумма продаж превысила 4 600 000
-Вывести:
-* Год продажи (например, 2015)
-* Месяц продажи (например, 4)
-* Общая сумма продаж
-Продажи смотреть в таблице Sales.Invoices и связанных таблицах.
+2. РћС‚РѕР±СЂР°Р·РёС‚СЊ РІСЃРµ РјРµСЃСЏС†С‹, РіРґРµ РѕР±С‰Р°СЏ СЃСѓРјРјР° РїСЂРѕРґР°Р¶ РїСЂРµРІС‹СЃРёР»Р° 4 600 000
+Р’С‹РІРµСЃС‚Рё:
+* Р“РѕРґ РїСЂРѕРґР°Р¶Рё (РЅР°РїСЂРёРјРµСЂ, 2015)
+* РњРµСЃСЏС† РїСЂРѕРґР°Р¶Рё (РЅР°РїСЂРёРјРµСЂ, 4)
+* РћР±С‰Р°СЏ СЃСѓРјРјР° РїСЂРѕРґР°Р¶
+РџСЂРѕРґР°Р¶Рё СЃРјРѕС‚СЂРµС‚СЊ РІ С‚Р°Р±Р»РёС†Рµ Sales.Invoices Рё СЃРІСЏР·Р°РЅРЅС‹С… С‚Р°Р±Р»РёС†Р°С….
 */
 
 SELECT 
-	DATEPART(YEAR, Invoices.InvoiceDate) AS [Год продажи],
-	DATEPART(MONTH, Invoices.InvoiceDate) AS [Месяц продажи],
-	SUM(Transactions.TransactionAmount) AS [Сумма]
+	DATEPART(YEAR, Invoices.InvoiceDate) AS [Р“РѕРґ РїСЂРѕРґР°Р¶Рё],
+	DATEPART(MONTH, Invoices.InvoiceDate) AS [РњРµСЃСЏС† РїСЂРѕРґР°Р¶Рё],
+	SUM(Transactions.TransactionAmount) AS [РЎСѓРјРјР°]
 FROM Sales.Invoices Invoices
 INNER JOIN Sales.CustomerTransactions Transactions ON Invoices.InvoiceID = Transactions.InvoiceID
 INNER JOIN Sales.OrderLines OrderLines ON Invoices.OrderID = OrderLines.OrderID
@@ -52,29 +52,29 @@ HAVING SUM(Transactions.TransactionAmount) >  4600000
 
 
 /*
-3. Вывести сумму продаж, дату первой продажи
-и количество проданного по месяцам, по товарам,
-продажи которых менее 50 ед в месяц.
-Группировка должна быть по году,  месяцу, товару.
-Вывести:
-* Год продажи
-* Месяц продажи
-* Наименование товара
-* Сумма продаж
-* Дата первой продажи
-* Количество проданного
-Продажи смотреть в таблице Sales.Invoices и связанных таблицах.
+3. Р’С‹РІРµСЃС‚Рё СЃСѓРјРјСѓ РїСЂРѕРґР°Р¶, РґР°С‚Сѓ РїРµСЂРІРѕР№ РїСЂРѕРґР°Р¶Рё
+Рё РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРґР°РЅРЅРѕРіРѕ РїРѕ РјРµСЃСЏС†Р°Рј, РїРѕ С‚РѕРІР°СЂР°Рј,
+РїСЂРѕРґР°Р¶Рё РєРѕС‚РѕСЂС‹С… РјРµРЅРµРµ 50 РµРґ РІ РјРµСЃСЏС†.
+Р“СЂСѓРїРїРёСЂРѕРІРєР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РїРѕ РіРѕРґСѓ,  РјРµСЃСЏС†Сѓ, С‚РѕРІР°СЂСѓ.
+Р’С‹РІРµСЃС‚Рё:
+* Р“РѕРґ РїСЂРѕРґР°Р¶Рё
+* РњРµСЃСЏС† РїСЂРѕРґР°Р¶Рё
+* РќР°РёРјРµРЅРѕРІР°РЅРёРµ С‚РѕРІР°СЂР°
+* РЎСѓРјРјР° РїСЂРѕРґР°Р¶
+* Р”Р°С‚Р° РїРµСЂРІРѕР№ РїСЂРѕРґР°Р¶Рё
+* РљРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРґР°РЅРЅРѕРіРѕ
+РџСЂРѕРґР°Р¶Рё СЃРјРѕС‚СЂРµС‚СЊ РІ С‚Р°Р±Р»РёС†Рµ Sales.Invoices Рё СЃРІСЏР·Р°РЅРЅС‹С… С‚Р°Р±Р»РёС†Р°С….
 */
 
--- напишите здесь свое решение
+-- РЅР°РїРёС€РёС‚Рµ Р·РґРµСЃСЊ СЃРІРѕРµ СЂРµС€РµРЅРёРµ
 
 SELECT 
-	DATEPART(YEAR, Transactions.TransactionDate) AS [Год продажи],
-	DATEPART(MONTH, Transactions.TransactionDate) AS [Месяц продажи],
-	StockItems.StockItemName AS [Название товара],
-	SUM(Transactions.TransactionAmount) AS [Сумма продаж],
-	MIN(Transactions.TransactionDate) AS [Дата первой продажи],
-	COUNT(InvoiceLines.Quantity) AS [Кол-во проданного]
+	DATEPART(YEAR, Transactions.TransactionDate) AS [Р“РѕРґ РїСЂРѕРґР°Р¶Рё],
+	DATEPART(MONTH, Transactions.TransactionDate) AS [РњРµСЃСЏС† РїСЂРѕРґР°Р¶Рё],
+	StockItems.StockItemName AS [РќР°Р·РІР°РЅРёРµ С‚РѕРІР°СЂР°],
+	SUM(Transactions.TransactionAmount) AS [РЎСѓРјРјР° РїСЂРѕРґР°Р¶],
+	MIN(Transactions.TransactionDate) AS [Р”Р°С‚Р° РїРµСЂРІРѕР№ РїСЂРѕРґР°Р¶Рё],
+	COUNT(InvoiceLines.Quantity) AS [РљРѕР»-РІРѕ РїСЂРѕРґР°РЅРЅРѕРіРѕ]
 FROM Sales.InvoiceLines InvoiceLines
 INNER JOIN Warehouse.StockItems StockItems ON InvoiceLines.StockItemID = StockItems.StockItemID
 INNER JOIN Sales.CustomerTransactions Transactions ON InvoiceLines.InvoiceID = Transactions.InvoiceID
@@ -82,6 +82,6 @@ GROUP BY StockItems.StockItemName
 	,DATEPART(YEAR, Transactions.TransactionDate)
 	,DATEPART(MONTH, Transactions.TransactionDate)
 HAVING COUNT(InvoiceLines.Quantity) < 50
-ORDER BY [Год продажи], [Месяц продажи]
+ORDER BY [Р“РѕРґ РїСЂРѕРґР°Р¶Рё], [РњРµСЃСЏС† РїСЂРѕРґР°Р¶Рё]
 
 
